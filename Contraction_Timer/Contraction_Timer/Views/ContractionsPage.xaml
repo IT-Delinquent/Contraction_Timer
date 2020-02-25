@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Contraction_Timer.Views.ContractionsPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Contraction_Timer.ViewModels"
+    x:Name="Contractions_Page"
+    Title="Contractions"
+    mc:Ignorable="d">
+
+    <ContentPage.BindingContext>
+        <viewModels:ContractionsViewModel />
+    </ContentPage.BindingContext>
+
+
+    <ListView
+        Margin="10"
+        HorizontalOptions="FillAndExpand"
+        IsPullToRefreshEnabled="True"
+        IsRefreshing="{Binding IsRefreshing}"
+        ItemsSource="{Binding Contractions}"
+        RefreshCommand="{Binding LoadContractionsCommand}"
+        RowHeight="100"
+        SelectionMode="None"
+        VerticalOptions="FillAndExpand">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+
+                <ViewCell>
+                    <Grid
+                        x:Name="Item"
+                        Margin="0,10"
+                        BackgroundColor="LightGray">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackLayout
+                            Grid.Column="0"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="CenterAndExpand">
+                            <StackLayout
+                                Padding="5"
+                                Orientation="Horizontal"
+                                Spacing="5">
+                                <Label FontSize="16" Text="Started at:" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="18"
+                                    Text="{Binding StartTime}" />
+                            </StackLayout>
+
+                            <StackLayout
+                                Padding="5"
+                                Orientation="Horizontal"
+                                Spacing="5">
+                                <Label FontSize="16" Text="Ended at:" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="18"
+                                    Text="{Binding EndTime}" />
+                            </StackLayout>
+                        </StackLayout>
+
+                        <Button
+                            Grid.Column="1"
+                            Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference Contractions_Page}}"
+                            CommandParameter="{Binding Path=BindingContext.FileName, Source={x:Reference Item}}"
+                            Text="Del" />
+
+                    </Grid>
+                </ViewCell>
+
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentPage>

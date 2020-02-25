@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Contraction_Timer.Views.RecordPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Contraction_Timer.ViewModels"
+    Title="Record"
+    mc:Ignorable="d">
+
+    <ContentPage.BindingContext>
+        <viewModels:RecordViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Button
+            Grid.Row="0"
+            BackgroundColor="Green"
+            Command="{Binding StartCommand}"
+            Text="Start"
+            TextColor="White" />
+        <Button
+            Grid.Row="1"
+            BackgroundColor="Red"
+            Command="{Binding StopCommand}"
+            Text="Stop"
+            TextColor="White" />
+
+        <StackLayout
+            Grid.Row="2"
+            Margin="20"
+            HorizontalOptions="FillAndExpand"
+            Orientation="Vertical"
+            Spacing="10"
+            VerticalOptions="Center">
+            <Label
+                FontSize="Large"
+                HorizontalTextAlignment="Center"
+                Text="Started:" />
+            <Label
+                FontAttributes="Bold"
+                FontSize="Title"
+                HorizontalTextAlignment="Center"
+                Text="{Binding StartTime}"
+                VerticalTextAlignment="Center" />
+        </StackLayout>
+
+        <StackLayout
+            Grid.Row="3"
+            Margin="20"
+            HorizontalOptions="CenterAndExpand"
+            Orientation="Vertical"
+            Spacing="10"
+            VerticalOptions="Center">
+            <Label FontSize="Large" Text="Duration:" />
+            <Label
+                FontAttributes="Bold"
+                FontSize="Title"
+                HorizontalOptions="CenterAndExpand"
+                Text="{Binding Duration}"
+                VerticalOptions="Center" />
+        </StackLayout>
+
+        <StackLayout
+            Grid.Row="4"
+            Margin="20"
+            HorizontalOptions="CenterAndExpand"
+            IsVisible="{Binding IsRunning}"
+            Orientation="Vertical"
+            Spacing="10"
+            VerticalOptions="Center">
+
+            <Label
+                Padding="10"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="Pain Level" />
+            <Picker
+                Title="Select a pain level"
+                FontSize="20"
+                IsEnabled="{Binding IsRunning}"
+                ItemsSource="{Binding PainLevels}"
+                SelectedItem="{Binding Contraction.PainLevel}" />
+        </StackLayout>
+    </Grid>
+
+
+
+
+</ContentPage>

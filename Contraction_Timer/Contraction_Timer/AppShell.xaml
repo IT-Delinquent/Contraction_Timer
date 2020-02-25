@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell
+    x:Class="Contraction_Timer.AppShell"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Contraction_Timer.Views"
+    Title="Contractions Timer">
+
+    <TabBar>
+        <Tab Title="Record">
+            <ShellContent>
+                <views:RecordPage />
+            </ShellContent>
+        </Tab>
+
+        <Tab Title="Contractions">
+            <ShellContent>
+                <views:ContractionsPage />
+            </ShellContent>
+        </Tab>
+    </TabBar>
+</Shell>
