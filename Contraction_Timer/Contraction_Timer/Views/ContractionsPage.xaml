@@ -10,71 +10,115 @@
     Title="Contractions"
     mc:Ignorable="d">
 
+    <!--  Set the binding context  -->
     <ContentPage.BindingContext>
         <viewModels:ContractionsViewModel />
     </ContentPage.BindingContext>
 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
-    <ListView
-        Margin="10"
-        HorizontalOptions="FillAndExpand"
-        IsPullToRefreshEnabled="True"
-        IsRefreshing="{Binding IsRefreshing}"
-        ItemsSource="{Binding Contractions}"
-        RefreshCommand="{Binding LoadContractionsCommand}"
-        RowHeight="100"
-        SelectionMode="None"
-        VerticalOptions="FillAndExpand">
-        <ListView.ItemTemplate>
-            <DataTemplate>
+        <!--  "Pull to refresh" reminder  -->
+        <Label
+            Grid.Row="0"
+            BackgroundColor="LightBlue"
+            HorizontalTextAlignment="Center"
+            Text="Pull down to refresh" />
 
-                <ViewCell>
-                    <Grid
-                        x:Name="Item"
-                        Margin="0,10"
-                        BackgroundColor="LightGray">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="50" />
-                        </Grid.ColumnDefinitions>
+        <!--  Contractions list  -->
+        <ListView
+            Grid.Row="1"
+            Margin="10,0,10,10"
+            HasUnevenRows="True"
+            HorizontalOptions="FillAndExpand"
+            IsPullToRefreshEnabled="True"
+            IsRefreshing="{Binding IsRefreshing}"
+            ItemsSource="{Binding Contractions}"
+            RefreshCommand="{Binding LoadContractionsCommand}"
+            SelectionMode="None"
+            VerticalOptions="FillAndExpand"
+            VerticalScrollBarVisibility="Always">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame>
+                            <Grid x:Name="Item">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="50" />
+                                </Grid.ColumnDefinitions>
 
-                        <StackLayout
-                            Grid.Column="0"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="CenterAndExpand">
-                            <StackLayout
-                                Padding="5"
-                                Orientation="Horizontal"
-                                Spacing="5">
-                                <Label FontSize="16" Text="Started at:" />
-                                <Label
-                                    FontAttributes="Bold"
-                                    FontSize="18"
-                                    Text="{Binding StartTime}" />
-                            </StackLayout>
+                                <StackLayout
+                                    Grid.Column="0"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="CenterAndExpand">
 
-                            <StackLayout
-                                Padding="5"
-                                Orientation="Horizontal"
-                                Spacing="5">
-                                <Label FontSize="16" Text="Ended at:" />
-                                <Label
-                                    FontAttributes="Bold"
-                                    FontSize="18"
-                                    Text="{Binding EndTime}" />
-                            </StackLayout>
-                        </StackLayout>
+                                    <!--  Start at text  -->
+                                    <StackLayout
+                                        Padding="5"
+                                        Orientation="Horizontal"
+                                        Spacing="5">
+                                        <Label FontSize="16" Text="Started at:" />
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="18"
+                                            Text="{Binding StartTime}" />
+                                    </StackLayout>
 
-                        <Button
-                            Grid.Column="1"
-                            Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference Contractions_Page}}"
-                            CommandParameter="{Binding Path=BindingContext.FileName, Source={x:Reference Item}}"
-                            Text="Del" />
+                                    <!--  Ended at text  -->
+                                    <StackLayout
+                                        Padding="5"
+                                        Orientation="Horizontal"
+                                        Spacing="5">
+                                        <Label FontSize="16" Text="Ended at:" />
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="18"
+                                            Text="{Binding EndTime}" />
+                                    </StackLayout>
 
-                    </Grid>
-                </ViewCell>
+                                    <!--  Duration text  -->
+                                    <StackLayout Orientation="Horizontal">
+                                        <StackLayout
+                                            Padding="5"
+                                            Orientation="Horizontal"
+                                            Spacing="5">
+                                            <Label FontSize="16" Text="Duration:" />
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="18"
+                                                Text="{Binding Duration}" />
+                                        </StackLayout>
 
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+                                        <!--  Pain level text  -->
+                                        <StackLayout
+                                            Padding="5"
+                                            Orientation="Horizontal"
+                                            Spacing="5">
+                                            <Label FontSize="16" Text="Pain Level:" />
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="18"
+                                                Text="{Binding PainLevel}" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+
+                                <!--  Delete button  -->
+                                <Button
+                                    Grid.Column="1"
+                                    Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference Contractions_Page}}"
+                                    CommandParameter="{Binding .}"
+                                    FontSize="22"
+                                    Text="🗑️" />
+                            </Grid>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
 </ContentPage>

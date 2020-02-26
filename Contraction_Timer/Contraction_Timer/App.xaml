@@ -6,6 +6,5 @@
              mc:Ignorable="d"
              x:Class="Contraction_Timer.App">
     <Application.Resources>
-
     </Application.Resources>
 </Application>

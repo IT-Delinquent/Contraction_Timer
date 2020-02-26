@@ -1,16 +1,15 @@
 ﻿using Contraction_Timer.Helpers;
-using Contraction_Timer.ViewModels;
-using System;
-using System.IO;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Contraction_Timer
 {
     public partial class App : Application
     {
-
+        /// <summary>
+        /// The path to store contraction data files
+        /// </summary>
         public static string FolderPath { get; private set; }
+
         public App()
         {
             InitializeComponent();

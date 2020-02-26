@@ -9,6 +9,7 @@
     Title="Record"
     mc:Ignorable="d">
 
+    <!--  Set the binding context  -->
     <ContentPage.BindingContext>
         <viewModels:RecordViewModel />
     </ContentPage.BindingContext>
@@ -22,12 +23,15 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <!--  Start button  -->
         <Button
             Grid.Row="0"
             BackgroundColor="Green"
             Command="{Binding StartCommand}"
             Text="Start"
             TextColor="White" />
+
+        <!--  Stop button  -->
         <Button
             Grid.Row="1"
             BackgroundColor="Red"
@@ -35,6 +39,7 @@
             Text="Stop"
             TextColor="White" />
 
+        <!--  Start text  -->
         <StackLayout
             Grid.Row="2"
             Margin="20"
@@ -54,6 +59,7 @@
                 VerticalTextAlignment="Center" />
         </StackLayout>
 
+        <!--  Duration text  -->
         <StackLayout
             Grid.Row="3"
             Margin="20"
@@ -70,6 +76,7 @@
                 VerticalOptions="Center" />
         </StackLayout>
 
+        <!--  Pain level  -->
         <StackLayout
             Grid.Row="4"
             Margin="20"
@@ -92,8 +99,4 @@
                 SelectedItem="{Binding Contraction.PainLevel}" />
         </StackLayout>
     </Grid>
-
-
-
-
 </ContentPage>

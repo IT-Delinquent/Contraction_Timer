@@ -3,113 +3,175 @@ using Contraction_Timer.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using System.Windows.Input;
-using Xamarin.Forms;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Contraction_Timer.ViewModels
 {
+    /// <summary>
+    /// Class for displaying the contractions in a list
+    /// </summary>
     public class ContractionsViewModel : BaseViewModel
     {
-		private ObservableCollection<Contraction> _contractions = new ObservableCollection<Contraction>();
+        #region Private backing fields
 
-		public ObservableCollection<Contraction> Contractions
-		{
-			get { return _contractions; }
-			set 
-			{
-				_contractions = value;
-				OnPropertyChanged();
-			}
-		}
+        /// <summary>
+        /// Holds the list of contractions
+        /// </summary>
+        private ObservableCollection<Contraction> _contractions = new ObservableCollection<Contraction>();
 
-		private string _duration;
+        /// <summary>
+        /// Holds the duration of a contraction
+        /// </summary>
+        private string _duration;
 
-		public string Duration
-		{
-			get { return _duration; }
-			set 
-			{ 
-				_duration = value; 
+        /// <summary>
+        /// Holds whether the page is refreshing
+        /// </summary>
+        private bool _isRefreshing;
 
-			}
-		}
+        #endregion Private backing fields
 
+        #region Public properties
 
-		private bool _isRefreshing;
+        /// <summary>
+        /// Accessor and modifier for the contractions
+        /// </summary>
+        public ObservableCollection<Contraction> Contractions
+        {
+            get { return _contractions; }
+            set
+            {
+                _contractions = value;
+                OnPropertyChanged();
+            }
+        }
 
-		public bool IsRefreshing
-		{
-			get { return _isRefreshing; }
-			set 
-			{
-				_isRefreshing = value;
-				OnPropertyChanged();
-			}
-		}
+        /// <summary>
+        /// Accessor and modifier for the duration of a contraction
+        /// </summary>
+        public string Duration
+        {
+            get { return _duration; }
+            set
+            {
+                _duration = value;
+            }
+        }
 
+        /// <summary>
+        /// Accessor and modifier for if the page is refreshing
+        /// </summary>
+        public bool IsRefreshing
+        {
+            get { return _isRefreshing; }
+            set
+            {
+                _isRefreshing = value;
+                OnPropertyChanged();
+            }
+        }
 
-		public ContractionsViewModel()
-		{
-			LoadContractionsCommand = new Command(() => LoadContractions());
-			LoadContractionsCommand.Execute(null);
+        /// <summary>
+        /// Command to delete a contraction
+        /// </summary>
+        public ICommand DeleteCommand { get; }
 
-			DeleteCommand = new Command<string>(async (x) => await DeleteNoteAsync(x));
-		}
+        /// <summary>
+        /// Command to load the contractions
+        /// </summary>
+        public ICommand LoadContractionsCommand { get; set; }
 
-		public ICommand DeleteCommand { get; }
+        #endregion Public properties
 
+        #region Priavte methods
 
-		private async Task DeleteNoteAsync(string filename)
-		{
-			if (!IOHelpers.FileExists(filename))
-			{
-				await Application
-					.Current
-					.MainPage
-					.DisplayAlert("Error",
-					"Couldn't find the note... Please report this bug", 
-					"OK");
-				return;
-			}
-			IOHelpers.DeleteFile(filename);
-		}
+        /// <summary>
+        /// Deletes a contraction file
+        /// </summary>
+        /// <param name="contraction">The contraction object to delete</param>
+        /// <returns>A task to delete and remove the contraction object</returns>
+        private async Task DeleteNoteAsync(Contraction contraction)
+        {
+            //Confirm the user wants to delete the note
+            bool prompResult = await Application
+                .Current
+                .MainPage
+                .DisplayAlert("Are you sure?", "Do you want to delete this contraction entry", "Delete", "Cancel");
 
-		public ICommand LoadContractionsCommand { get; }
+            if (prompResult != true)
+            {
+                return;
+            }
 
-		public void LoadContractions()
-		{
-			IsRefreshing = true;
-			List<string> files = IOHelpers.EnumeratAllFiles();
+            if (!IOHelpers.FileExists(contraction.Filename))
+            {
+                await Application
+                    .Current
+                    .MainPage
+                    .DisplayAlert("Error",
+                    "Couldn't find the note... Please report this bug",
+                    "OK");
+                return;
+            }
+            IOHelpers.DeleteFile(contraction.Filename);
+            Contractions.Remove(contraction);
+        }
 
-			Contractions?.Clear();
+        /// <summary>
+        /// Loads the contractions from disk
+        /// </summary>
+        private void LoadContractions()
+        {
+            IsRefreshing = true;
+            List<string> files = IOHelpers.EnumeratAllFiles();
 
-			foreach(var file in files)
-			{
-				string fileData = IOHelpers.ReadAllFileText(file);
+            Contractions?.Clear();
 
-				string[] fileParts = fileData.Split('^');
+            foreach (var file in files)
+            {
+                string fileData = IOHelpers.ReadAllFileText(file);
 
-				string startTime = fileParts[0];
-				string endTime = fileParts[1];
-				string painLevel = fileParts[2];
+                string[] fileParts = fileData.Split('^');
 
-				Contraction _tempContraction = new Contraction
-				{
-					Filename = file,
-					StartTime = DateTime.Parse(startTime),
-					EndTime = DateTime.Parse(endTime),
-					PainLevel = int.Parse(painLevel)
-				};
+                string startTime = fileParts[0];
+                string endTime = fileParts[1];
+                string painLevel = fileParts[2];
+                string duration = fileParts[3];
 
-				Contractions.Add(_tempContraction);
-			}
+                TimeSpan ts = new TimeSpan();
+                ts = DateTime.Parse(endTime) - DateTime.Parse(startTime);
+                string durationString = string.Format("{0:D2}:{1:D2}", ts.Minutes, ts.Seconds);
 
-			Contractions = new ObservableCollection<Contraction>(Contractions.OrderByDescending(x => x.StartTime));
-			IsRefreshing = false;
-		}
+                Contraction _tempContraction = new Contraction
+                {
+                    Filename = file,
+                    StartTime = DateTime.Parse(startTime),
+                    EndTime = DateTime.Parse(endTime),
+                    PainLevel = int.Parse(painLevel),
+                    Duration = durationString
+                };
 
-	}
+                Contractions.Add(_tempContraction);
+            }
+
+            Contractions = new ObservableCollection<Contraction>(Contractions.OrderByDescending(x => x.StartTime));
+            IsRefreshing = false;
+        }
+
+        #endregion Priavte methods
+
+        /// <summary>
+        /// The constructor for the class
+        /// </summary>
+        public ContractionsViewModel()
+        {
+            LoadContractionsCommand = new Command(() => LoadContractions());
+            LoadContractionsCommand.Execute(null);
+
+            DeleteCommand = new Command<Contraction>(async (x) => await DeleteNoteAsync(x));
+        }
+    }
 }

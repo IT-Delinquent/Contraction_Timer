@@ -6,17 +6,32 @@
     xmlns:views="clr-namespace:Contraction_Timer.Views"
     Title="Contractions Timer">
 
-    <TabBar>
-        <Tab Title="Record">
-            <ShellContent>
-                <views:RecordPage />
-            </ShellContent>
-        </Tab>
+    <!--  Tab bar styling  -->
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Color x:Key="NavigationPrimary">#2196F3</Color>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.BackgroundColor" Value="{StaticResource NavigationPrimary}" />
+                <Setter Property="Shell.ForegroundColor" Value="White" />
+                <Setter Property="Shell.TitleColor" Value="White" />
+                <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
+                <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="White" />
+                <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF" />
+                <Setter Property="Shell.TabBarTitleColor" Value="White" />
+            </Style>
+            <Style BasedOn="{StaticResource BaseStyle}" TargetType="TabBar" />
+        </ResourceDictionary>
+    </Shell.Resources>
 
-        <Tab Title="Contractions">
-            <ShellContent>
-                <views:ContractionsPage />
-            </ShellContent>
+    <!--  Tab bar  -->
+    <TabBar>
+        <Tab Title="Record" Icon="timer.png">
+            <ShellContent ContentTemplate="{DataTemplate views:RecordPage}" />
+        </Tab>
+        <Tab Title="Contractions" Icon="list.png">
+            <ShellContent ContentTemplate="{DataTemplate views:ContractionsPage}" />
         </Tab>
     </TabBar>
 </Shell>
