@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace Contraction_Timer.ViewModels
 {
@@ -61,6 +62,11 @@ namespace Contraction_Timer.ViewModels
         public ICommand StopCommand { get; }
 
         /// <summary>
+        /// Command to discard the contraction
+        /// </summary>
+        public ICommand DiscardCommand { get; }
+
+        /// <summary>
         /// Accessor and modifier for whether the timer is running
         /// </summary>
         public bool IsRunning
@@ -72,6 +78,7 @@ namespace Contraction_Timer.ViewModels
                 OnPropertyChanged();
                 ((Command)StartCommand).ChangeCanExecute();
                 ((Command)StopCommand).ChangeCanExecute();
+                ((Command)DiscardCommand).ChangeCanExecute();
             }
         }
 
@@ -210,6 +217,18 @@ namespace Contraction_Timer.ViewModels
         {
             IsRunning = false;
 
+            //DEMANDING for a pain level
+            string painResult;
+            do
+            {
+                painResult = await Application
+                    .Current
+                    .MainPage
+                    .DisplayActionSheet("How bad is the pain?", null, null, PainLevels.ToArray());
+            } while (!PainLevels.Contains(painResult));
+
+            PainLevel(painResult);
+
             //Build and save the current contraction
             Contraction.EndTime = DateTime.Now;
             TimeSpan? ts = Contraction.EndTime - Contraction.StartTime;
@@ -224,7 +243,6 @@ namespace Contraction_Timer.ViewModels
             StartTime = Contraction.StartTime;
             stopWatch.Stop();
             stopWatch.Reset();
-            PainLevel("1");
             Duration = null;
 
             await Application
@@ -252,6 +270,24 @@ namespace Contraction_Timer.ViewModels
             IOHelpers.SaveData(fileName, fileData);
         }
 
+        /// <summary>
+        /// Discard the current contraction
+        /// </summary>
+        private void Discard()
+        {
+            IsRunning = false;
+
+            //Clear the contraction
+            Contraction = new Contraction
+            {
+                StartTime = null
+            };
+            StartTime = Contraction.StartTime;
+            stopWatch.Stop();
+            stopWatch.Reset();
+            Duration = null;
+        }
+
         #endregion Private methods
 
         /// <summary>
@@ -270,6 +306,7 @@ namespace Contraction_Timer.ViewModels
 
             StartCommand = new Command(() => Start(), () => !IsRunning);
             StopCommand = new Command(async () => await StopAsync(), () => IsRunning);
+            DiscardCommand = new Command(() => Discard(), () => IsRunning);
 
             Contraction = new Contraction();
             StartTime = Contraction.StartTime;

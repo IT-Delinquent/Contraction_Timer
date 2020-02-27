@@ -16,69 +16,86 @@
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!--  Start button  -->
-        <Button
+        <!--  Started text  -->
+        <StackLayout
             Grid.Row="0"
-            BackgroundColor="{StaticResource CustomGreen}"
-            Command="{Binding StartCommand}"
-            Text="Start"
-            TextColor="White" />
+            HorizontalOptions="CenterAndExpand"
+            VerticalOptions="CenterAndExpand">
+            <StackLayout
+                Grid.Row="0"
+                Margin="20"
+                Orientation="Vertical"
+                Spacing="10">
+                <Label
+                    FontSize="Large"
+                    HorizontalTextAlignment="Center"
+                    Text="Started:" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Title"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding StartTime, StringFormat='{}{0:t}'}"
+                    VerticalTextAlignment="Center" />
+            </StackLayout>
 
-        <!--  Stop button  -->
-        <Button
-            Grid.Row="1"
-            BackgroundColor="{StaticResource CustomRed}"
-            Command="{Binding StopCommand}"
-            Text="Stop"
-            TextColor="White" />
+            <!--  Duration text  -->
+            <StackLayout
+                Grid.Row="1"
+                Margin="20"
+                HorizontalOptions="CenterAndExpand"
+                Orientation="Vertical"
+                Spacing="10"
+                VerticalOptions="CenterAndExpand">
+                <Label FontSize="Large" Text="Duration:" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Title"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="{Binding Duration}"
+                    VerticalOptions="Center" />
+            </StackLayout>
+        </StackLayout>
 
-        <!--  Start text  -->
+        <!--  Start button  -->
         <StackLayout
             Grid.Row="2"
-            Margin="20"
-            HorizontalOptions="FillAndExpand"
             Orientation="Vertical"
-            Spacing="10"
-            VerticalOptions="Center">
-            <Label
-                FontSize="Large"
-                HorizontalTextAlignment="Center"
-                Text="Started:" />
-            <Label
-                FontAttributes="Bold"
-                FontSize="Title"
-                HorizontalTextAlignment="Center"
-                Text="{Binding StartTime, StringFormat='{}{0:t}'}"
-                VerticalTextAlignment="Center" />
+            VerticalOptions="End">
+            <Button
+                Grid.Row="2"
+                BackgroundColor="{StaticResource CustomGreen}"
+                Command="{Binding StartCommand}"
+                Text="Start"
+                TextColor="White" />
+
+            <!--  Stop button  -->
+            <Button
+                Grid.Row="3"
+                BackgroundColor="{StaticResource CustomRed}"
+                Command="{Binding StopCommand}"
+                Text="Stop"
+                TextColor="White" />
+
+            <!--  Discard button  -->
+            <Button
+                Grid.Row="4"
+                Margin="0,10,0,10"
+                BackgroundColor="Gray"
+                Command="{Binding DiscardCommand}"
+                Text="Discard"
+                TextColor="White" />
+
         </StackLayout>
 
-        <!--  Duration text  -->
-        <StackLayout
-            Grid.Row="3"
-            Margin="20"
-            HorizontalOptions="CenterAndExpand"
-            Orientation="Vertical"
-            Spacing="10"
-            VerticalOptions="Center">
-            <Label FontSize="Large" Text="Duration:" />
-            <Label
-                FontAttributes="Bold"
-                FontSize="Title"
-                HorizontalOptions="CenterAndExpand"
-                Text="{Binding Duration}"
-                VerticalOptions="Center" />
-        </StackLayout>
 
         <!--  Pain level  -->
+        <!--
         <StackLayout
-            Grid.Row="4"
+            Grid.Row="5"
             Margin="20"
             HorizontalOptions="CenterAndExpand"
             IsVisible="{Binding IsRunning}"
@@ -98,5 +115,6 @@
                 ItemsSource="{Binding PainLevels}"
                 SelectedItem="{Binding Contraction.PainLevel}" />
         </StackLayout>
+        -->
     </Grid>
 </ContentPage>
