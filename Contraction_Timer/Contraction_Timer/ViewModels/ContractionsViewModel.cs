@@ -121,7 +121,19 @@ namespace Contraction_Timer.ViewModels
                     "OK");
                 return;
             }
-            IOHelpers.DeleteFile(contraction.Filename);
+
+            try
+            {
+                IOHelpers.DeleteFile(contraction.Filename);
+            }
+            catch
+            {
+                await Application
+                    .Current
+                    .MainPage
+                    .DisplayAlert("Error", "Failed to delete the contraction, please report this", "OK");
+            }
+
             Contractions.Remove(contraction);
         }
 

@@ -233,7 +233,7 @@ namespace Contraction_Timer.ViewModels
             Contraction.EndTime = DateTime.Now;
             TimeSpan? ts = Contraction.EndTime - Contraction.StartTime;
             Contraction.Duration = ts.ToString();
-            Save();
+            await Save();
 
             //Clear the contraction
             Contraction = new Contraction
@@ -256,7 +256,7 @@ namespace Contraction_Timer.ViewModels
         /// <summary>
         /// Save the contraction data
         /// </summary>
-        private void Save()
+        private async Task Save()
         {
             string fileData = string
                 .Format("{0}^{1}^{2}^{3}",
@@ -267,7 +267,17 @@ namespace Contraction_Timer.ViewModels
 
             string fileName = IOHelpers.GetUniqueFileName();
 
-            IOHelpers.SaveData(fileName, fileData);
+            try
+            {
+                IOHelpers.SaveData(fileName, fileData);
+            }
+            catch
+            {
+                await Application
+                    .Current
+                    .MainPage
+                    .DisplayAlert("Error", "Failed to save the contraction. Please report this", "OK");
+            }
         }
 
         /// <summary>
