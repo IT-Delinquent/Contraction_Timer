@@ -90,31 +90,5 @@
                 TextColor="White" />
 
         </StackLayout>
-
-
-        <!--  Pain level  -->
-        <!--
-        <StackLayout
-            Grid.Row="5"
-            Margin="20"
-            HorizontalOptions="CenterAndExpand"
-            IsVisible="{Binding IsRunning}"
-            Orientation="Vertical"
-            Spacing="10"
-            VerticalOptions="Center">
-
-            <Label
-                Padding="10"
-                FontSize="20"
-                HorizontalOptions="Center"
-                Text="Pain Level" />
-            <Picker
-                Title="Select a pain level"
-                FontSize="20"
-                IsEnabled="{Binding IsRunning}"
-                ItemsSource="{Binding PainLevels}"
-                SelectedItem="{Binding Contraction.PainLevel}" />
-        </StackLayout>
-        -->
     </Grid>
 </ContentPage>
