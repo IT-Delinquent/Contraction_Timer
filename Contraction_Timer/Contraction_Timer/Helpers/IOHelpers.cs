@@ -76,5 +76,19 @@ namespace Contraction_Timer.Helpers
         {
             return File.Exists(file);
         }
+
+        /// <summary>
+        /// Deletes all the contractions
+        /// </summary>
+        public static void DeleteAllNotes()
+        {
+            foreach(string i in EnumeratAllFiles())
+            {
+                if (FileExists(i))
+                {
+                    File.Delete(i);
+                }
+            }
+        }
     }
 }

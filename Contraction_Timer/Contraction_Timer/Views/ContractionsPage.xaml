@@ -15,6 +15,10 @@
         <viewModels:ContractionsViewModel />
     </ContentPage.BindingContext>
 
+    <!--  Delete all button  -->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding DeleteAllCommand}" Text="Delete All" />
+    </ContentPage.ToolbarItems>
 
     <StackLayout>
 
@@ -27,7 +31,6 @@
 
         <!--  Contractions list  -->
         <ListView
-            BackgroundColor="Black"
             HasUnevenRows="True"
             HorizontalOptions="FillAndExpand"
             IsPullToRefreshEnabled="True"
@@ -79,37 +82,54 @@
                                             Text="{Binding EndTime, StringFormat='{}{0:dd/MM hh:mm tt}'}" />
                                     </StackLayout>
 
-                                    <!--  Duration text  -->
-                                    <StackLayout Orientation="Horizontal">
-                                        <StackLayout
-                                            Padding="5"
-                                            Orientation="Horizontal"
-                                            Spacing="5">
-                                            <Label
-                                                FontSize="16"
-                                                Text="Duration:"
-                                                VerticalTextAlignment="Center" />
-                                            <Label
-                                                FontAttributes="Bold"
-                                                FontSize="18"
-                                                Text="{Binding Duration}" />
-                                        </StackLayout>
+                                    <!--  Duration and pain grid  -->
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
 
-                                        <!--  Pain level text  -->
-                                        <StackLayout
-                                            Padding="5"
-                                            Orientation="Horizontal"
-                                            Spacing="5">
-                                            <Label
-                                                FontSize="16"
-                                                Text="Pain Level:"
-                                                VerticalTextAlignment="Center" />
-                                            <Label
-                                                FontAttributes="Bold"
-                                                FontSize="18"
-                                                Text="{Binding PainLevel}" />
-                                        </StackLayout>
-                                    </StackLayout>
+                                        <!--  Duration label  -->
+                                        <Label
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            HorizontalTextAlignment="Center"
+                                            Text="Duration"
+                                            VerticalTextAlignment="Center" />
+
+                                        <!--  Duration text  -->
+                                        <Label
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            FontAttributes="Bold"
+                                            FontSize="18"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding Duration}"
+                                            VerticalTextAlignment="Center" />
+
+                                        <!--  Pain level label  -->
+                                        <Label
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            FontSize="16"
+                                            HorizontalTextAlignment="Center"
+                                            Text="Pain Level:"
+                                            VerticalTextAlignment="Center" />
+
+                                        <!--  Pain level  -->
+                                        <Label
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            FontAttributes="Bold"
+                                            FontSize="18"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding PainLevel}"
+                                            VerticalTextAlignment="Center" />
+                                    </Grid>
                                 </StackLayout>
 
                                 <!--  Delete button  -->

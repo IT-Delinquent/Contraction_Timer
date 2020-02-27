@@ -84,9 +84,14 @@ namespace Contraction_Timer.ViewModels
         /// </summary>
         public ICommand LoadContractionsCommand { get; set; }
 
+        /// <summary>
+        /// Command to delete all the contractions
+        /// </summary>
+        public ICommand DeleteAllCommand { get; set; }
+
         #endregion Public properties
 
-        #region Priavte methods
+        #region Private methods
 
         /// <summary>
         /// Deletes a contraction file
@@ -150,7 +155,7 @@ namespace Contraction_Timer.ViewModels
                     Filename = file,
                     StartTime = DateTime.Parse(startTime),
                     EndTime = DateTime.Parse(endTime),
-                    PainLevel = int.Parse(painLevel),
+                    PainLevel = painLevel,
                     Duration = durationString
                 };
 
@@ -159,6 +164,46 @@ namespace Contraction_Timer.ViewModels
 
             Contractions = new ObservableCollection<Contraction>(Contractions.OrderByDescending(x => x.StartTime));
             IsRefreshing = false;
+        }
+
+        /// <summary>
+        /// Deletes all the contractions and clears the list
+        /// </summary>
+        /// <returns>A task to delete all the contractions and clears the list</returns>
+        private async Task DeleteAllContractions()
+        {
+            await Application
+                .Current
+                .MainPage
+                .DisplayAlert("Are you sure?",
+                "This will permanently delete ALL your contractions", "OK");
+
+            string promptResult = await Application
+                .Current
+                .MainPage
+                .DisplayPromptAsync("Confirmation", "Please enter 'DELETE ALL MY CONTRACTIONS' to continue");
+
+            if (promptResult == null)
+            {
+                return;
+            }
+
+            if (promptResult != "DELETE ALL MY CONTRACTIONS")
+            {
+                await Application
+                    .Current
+                    .MainPage
+                    .DisplayAlert("Incorrect", "Yours contractions have NOT been deleted", "OK");
+                return;
+            }
+
+            IOHelpers.DeleteAllNotes();
+            Contractions.Clear();
+
+            await Application
+                .Current
+                .MainPage
+                .DisplayAlert("Deleted", "All your contractions have now been deleted", "OK");
         }
 
         #endregion Priavte methods
@@ -172,6 +217,7 @@ namespace Contraction_Timer.ViewModels
             LoadContractionsCommand.Execute(null);
 
             DeleteCommand = new Command<Contraction>(async (x) => await DeleteNoteAsync(x));
+            DeleteAllCommand = new Command(async () => await DeleteAllContractions());
         }
     }
 }

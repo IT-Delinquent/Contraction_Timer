@@ -30,6 +30,6 @@ namespace Contraction_Timer.Models
         /// <summary>
         /// The pain level of the contraction
         /// </summary>
-        public int PainLevel { get; set; }
+        public string PainLevel { get; set; }
     }
 }

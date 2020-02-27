@@ -44,7 +44,7 @@ namespace Contraction_Timer.ViewModels
         /// <summary>
         /// Holds the private list of possible pain levels
         /// </summary>
-        private List<int> _painLevels;
+        private List<string> _painLevels;
 
         #endregion Private backing fields
 
@@ -124,7 +124,7 @@ namespace Contraction_Timer.ViewModels
         /// <summary>
         /// Accessor and modifier for the possible pain levels
         /// </summary>
-        public List<int> PainLevels
+        public List<string> PainLevels
         {
             get { return _painLevels; }
             set
@@ -199,7 +199,7 @@ namespace Contraction_Timer.ViewModels
         /// <param name="level">A string of the contraction pain level</param>
         private void PainLevel(string level)
         {
-            Contraction.PainLevel = int.Parse(level);
+            Contraction.PainLevel = level;
         }
 
         /// <summary>
@@ -259,11 +259,13 @@ namespace Contraction_Timer.ViewModels
         /// </summary>
         public RecordViewModel()
         {
-            PainLevels = new List<int>
+            PainLevels = new List<string>
             {
-                1,
-                2,
-                3
+                "1/5",
+                "2/5",
+                "3/5",
+                "4/5",
+                "5/5"
             };
 
             StartCommand = new Command(() => Start(), () => !IsRunning);
