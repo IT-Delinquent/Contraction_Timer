@@ -26,7 +26,7 @@
         <!--  Start button  -->
         <Button
             Grid.Row="0"
-            BackgroundColor="Green"
+            BackgroundColor="{StaticResource CustomGreen}"
             Command="{Binding StartCommand}"
             Text="Start"
             TextColor="White" />
@@ -34,7 +34,7 @@
         <!--  Stop button  -->
         <Button
             Grid.Row="1"
-            BackgroundColor="Red"
+            BackgroundColor="{StaticResource CustomRed}"
             Command="{Binding StopCommand}"
             Text="Stop"
             TextColor="White" />
@@ -55,7 +55,7 @@
                 FontAttributes="Bold"
                 FontSize="Title"
                 HorizontalTextAlignment="Center"
-                Text="{Binding StartTime}"
+                Text="{Binding StartTime, StringFormat='{}{0:t}'}"
                 VerticalTextAlignment="Center" />
         </StackLayout>
 

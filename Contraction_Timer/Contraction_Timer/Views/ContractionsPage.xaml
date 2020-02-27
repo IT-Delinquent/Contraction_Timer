@@ -15,23 +15,19 @@
         <viewModels:ContractionsViewModel />
     </ContentPage.BindingContext>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+
+    <StackLayout>
 
         <!--  "Pull to refresh" reminder  -->
         <Label
-            Grid.Row="0"
             BackgroundColor="LightBlue"
             HorizontalTextAlignment="Center"
-            Text="Pull down to refresh" />
+            Text="Pull down to refresh"
+            VerticalOptions="StartAndExpand" />
 
         <!--  Contractions list  -->
         <ListView
-            Grid.Row="1"
-            Margin="10,0,10,10"
+            BackgroundColor="Black"
             HasUnevenRows="True"
             HorizontalOptions="FillAndExpand"
             IsPullToRefreshEnabled="True"
@@ -39,7 +35,7 @@
             ItemsSource="{Binding Contractions}"
             RefreshCommand="{Binding LoadContractionsCommand}"
             SelectionMode="None"
-            VerticalOptions="FillAndExpand"
+            VerticalOptions="StartAndExpand"
             VerticalScrollBarVisibility="Always">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -61,11 +57,14 @@
                                         Padding="5"
                                         Orientation="Horizontal"
                                         Spacing="5">
-                                        <Label FontSize="16" Text="Started at:" />
+                                        <Label
+                                            FontSize="16"
+                                            Text="Started at:"
+                                            VerticalTextAlignment="Center" />
                                         <Label
                                             FontAttributes="Bold"
                                             FontSize="18"
-                                            Text="{Binding StartTime}" />
+                                            Text="{Binding StartTime, StringFormat='{}{0:dd/MM hh:mm tt}'}" />
                                     </StackLayout>
 
                                     <!--  Ended at text  -->
@@ -77,7 +76,7 @@
                                         <Label
                                             FontAttributes="Bold"
                                             FontSize="18"
-                                            Text="{Binding EndTime}" />
+                                            Text="{Binding EndTime, StringFormat='{}{0:dd/MM hh:mm tt}'}" />
                                     </StackLayout>
 
                                     <!--  Duration text  -->
@@ -86,7 +85,10 @@
                                             Padding="5"
                                             Orientation="Horizontal"
                                             Spacing="5">
-                                            <Label FontSize="16" Text="Duration:" />
+                                            <Label
+                                                FontSize="16"
+                                                Text="Duration:"
+                                                VerticalTextAlignment="Center" />
                                             <Label
                                                 FontAttributes="Bold"
                                                 FontSize="18"
@@ -98,7 +100,10 @@
                                             Padding="5"
                                             Orientation="Horizontal"
                                             Spacing="5">
-                                            <Label FontSize="16" Text="Pain Level:" />
+                                            <Label
+                                                FontSize="16"
+                                                Text="Pain Level:"
+                                                VerticalTextAlignment="Center" />
                                             <Label
                                                 FontAttributes="Bold"
                                                 FontSize="18"
@@ -120,5 +125,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </Grid>
+    </StackLayout>
 </ContentPage>
