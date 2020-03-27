@@ -205,7 +205,7 @@ namespace Contraction_Timer.ViewModels
                 await Application
                     .Current
                     .MainPage
-                    .DisplayAlert("Incorrect", "Yours contractions have NOT been deleted", "OK");
+                    .DisplayAlert("Incorrect", "Your contractions have NOT been deleted", "OK");
                 return;
             }
 
