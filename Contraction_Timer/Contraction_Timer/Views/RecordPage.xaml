@@ -16,25 +16,20 @@
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*" />
+            <RowDefinition Height="6*" />
             <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
 
         <!--  Timer grid  -->
         <ScrollView Grid.Row="0">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
 
                 <!--  Start time  -->
                 <StackLayout
-                    Grid.Row="0"
                     HorizontalOptions="Center"
                     Orientation="Vertical"
                     Spacing="5"
-                    VerticalOptions="Center">
+                    VerticalOptions="Start">
                     <Label
                         FontSize="Large"
                         HorizontalTextAlignment="Center"
@@ -47,12 +42,12 @@
                         VerticalTextAlignment="Center" />
                 </StackLayout>
 
+                <!--  Duration time  -->
                 <StackLayout
-                    Grid.Row="1"
                     HorizontalOptions="Center"
                     Orientation="Vertical"
                     Spacing="5"
-                    VerticalOptions="Center">
+                    VerticalOptions="Start">
                     <Label FontSize="Large" Text="Duration:" />
                     <Label
                         FontAttributes="Bold"
@@ -61,13 +56,13 @@
                         Text="{Binding Duration}"
                         VerticalTextAlignment="Center" />
                 </StackLayout>
-            </Grid>
+            </StackLayout>
         </ScrollView>
 
         <!--  Buttons grid  -->
         <Grid Grid.Row="1" HorizontalOptions="FillAndExpand">
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*" />
+                <RowDefinition Height="1.5*" />
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
 
@@ -104,6 +99,4 @@
 
         </Grid>
     </Grid>
-
-
 </ContentPage>

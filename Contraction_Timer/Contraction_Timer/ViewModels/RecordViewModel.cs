@@ -45,13 +45,7 @@ namespace Contraction_Timer.ViewModels
         /// <summary>
         /// Holds the private list of possible pain levels
         /// </summary>
-        private List<string> _painLevels = new List<string>() { 
-            "1/5",
-            "2/5",
-            "3/5",
-            "4/5",
-            "5/5"
-        };
+        private List<string> _painLevels;
 
         #endregion Private backing fields
 
@@ -311,6 +305,14 @@ namespace Contraction_Timer.ViewModels
         /// </summary>
         public RecordViewModel()
         {
+
+            _painLevels = new List<string>() {
+                "1/5",
+                "2/5",
+                "3/5",
+                "4/5",
+                "5/5"
+            };
 
             StartCommand = new Command(() => Start(), () => !IsRunning);
             StopCommand = new Command(async () => await StopAsync(), () => IsRunning);
